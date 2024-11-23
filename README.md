@@ -19,7 +19,7 @@ Currently, the project supports the following interpolation techniques:
 
 When scaling an image, the lack of detail becomes evident due to limited resolution. For instance, given this image:
 
-![Original Image](sample.png)
+![Original Image](images/sample.png)
 
 Zooming into a specific area, such as the eye, reveals pixelation. This is expected, as the resolution of the image does not contain enough detail to support higher zoom levels:
 
