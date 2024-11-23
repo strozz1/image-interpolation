@@ -85,10 +85,13 @@ def click_event(event, x, y, flags, param):
             second=(x,y)
         elif event ==cv2.EVENT_LBUTTONUP:
                 resized=img[first[1]:second[1],first[0]:second[0]]
-                w,h=img.shape
+                rows,cols=img.shape
+                nrows,nh=resized.shape
         
-                factor=math.floor(w/(second[0]-first[0]))
-                upsc=interpolate(resized,factor,bilineal)
+                factor_w=rows/nrows
+                factor_h=cols/nh
+                print(factor_h*rows)
+                upsc=interpolate(resized,factor_h,bilineal)
                 first=None
                 second=None
                 selecting=False
