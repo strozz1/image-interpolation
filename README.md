@@ -50,7 +50,7 @@ A new window will display the upscaled result of the selected portion.
 To change the interpolation method, modify the `interpolate` function in `main.py`. Future updates may include a graphical interface to allow method selection.
 
 ## Future Improvements
-
+- Use GPU for better time on matrix operations 
 - Implementing **bicubic** and **spline** interpolation methods.
 - Improving user interface (kinda poor right now, not really into UIs)
 - Adding a user interface option for selecting interpolation methods.
