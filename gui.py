@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QWidget, QScrollArea, QVBoxLayout, QHBoxLayout, QPushButton,  QFileDialog
+from PyQt5.QtWidgets import QApplication, QComboBox, QLabel, QSizePolicy, QSpacerItem, QWidget, QScrollArea, QVBoxLayout, QHBoxLayout, QPushButton,  QFileDialog
 from PyQt5.QtGui import QPixmap, QPainter, QPen
 from dual_image import DualImageViewer
 from image_widget import ImageSelectable 
@@ -13,7 +13,7 @@ class MainImageViewer(QWidget):
         #TODO not working
         self.zoom_factor = 1.0
         self.image_path = None
-        self.interp_method=bilineal
+        self.interp_method=nearest
         self.initUI()
 
        
@@ -32,12 +32,28 @@ class MainImageViewer(QWidget):
 
         zoom_in_button = QPushButton('Zoom In')
         zoom_in_button.clicked.connect(self.zoom_in)
-        button_layout.addWidget(zoom_in_button)
+        #button_layout.addWidget(zoom_in_button)
 
         select_in_button = QPushButton('Select')
         select_in_button.clicked.connect(self.interp_window)
         button_layout.addWidget(select_in_button)
+        type_layout = QHBoxLayout()
 
+        spacer = QSpacerItem(0, 0, QSizePolicy.Minimum, QSizePolicy.Minimum)
+        type_layout.addItem(spacer)
+
+        combobox= QComboBox()
+        combobox.addItems(["Nearest neighbor","Bilinear"])
+        combobox.currentTextChanged.connect(self.interp_changed)
+        type_layout.addWidget(combobox)
+
+        label=QLabel("Type")
+        label.setScaledContents(True)      
+        label.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        type_layout.addWidget(label)
+
+        button_layout.addLayout(type_layout)
+ 
         main_layout.addLayout(button_layout)
 
         # scroll area
@@ -53,7 +69,11 @@ class MainImageViewer(QWidget):
         self.image_label = ImageSelectable("")
         v_layout.addWidget(self.image_label,alignment=Qt.AlignCenter)
 
-
+    def interp_changed(self,method):
+        if method == "Bilinear":
+            self.interp_method=bilineal
+        elif method == "Nearest neighbor":
+            method=nearest
     def zoom_in(self):
         self.zoom_factor *= 1.2
         self.update_image()
