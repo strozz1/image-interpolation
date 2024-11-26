@@ -92,7 +92,6 @@ class ImageSelectable(QWidget):
             y = min(event.pos().y(), self.image.height() - 1)
             self.end_point = QPoint(x, y)
             self.rect = QRect(self.start_point, self.end_point)
-            print(self.rect)
             self.update()
 
     def mouseReleaseEvent(self, event):
