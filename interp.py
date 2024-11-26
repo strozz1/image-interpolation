@@ -1,7 +1,7 @@
 import math
 import numpy as np
 
-__all__=['interpolate','bilineal','nearest']
+__all__=['interpolate','bilineal','nearest','none_interp']
 
 
 def lerp(x0,x1,y0,y1,p):
@@ -66,6 +66,24 @@ def nearest(image,factor):
             orig_x = min(int(row / factor), original_rows - 1)
             orig_y = min(int(col / factor), original_cols - 1)
             new_img[row, col]=image[orig_x, orig_y]
+    return new_img
+
+def none_interp(image,factor):
+    original_rows, original_cols = image.shape
+    
+    new_rows = int(original_rows * factor)
+    new_cols = int(original_cols * factor)
+
+    y_scale = new_cols / original_cols
+    x_scale = new_rows / original_rows
+    new_img = np.zeros((new_rows, new_cols, 3), dtype=np.uint8)
+
+    for i in range(new_rows):
+        for j in range(new_cols):
+            orig_x = int(j // x_scale)
+            orig_y = int(i // y_scale)
+            
+            new_img[i, j] = image[orig_y, orig_x]
     return new_img
 
 
