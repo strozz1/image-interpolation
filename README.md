@@ -5,6 +5,9 @@ This project demonstrates the use of interpolation techniques for scaling images
 **Note:** This project is not intended for production use, and certain edge cases may not be fully handled. There are several bugs that I intend to fix in the future.
 
 **Disclaimer**: For the moment, the project only supports images in grayscale. 
+## Demo preview
+https://github.com/user-attachments/assets/2478b729-3931-44bb-b35f-12f87bdb86bf
+
 
 ## Interpolation Methods
 
@@ -14,6 +17,9 @@ Currently, the project supports the following interpolation techniques:
 2. **Bilinear**  
 3. **Bicubic** *(not yet implemented)*  
 4. **Splines** *(not yet implemented)*  
+
+
+
 
 ## Example
 
