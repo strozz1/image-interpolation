@@ -1,4 +1,5 @@
 import sys
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QScrollArea, QVBoxLayout, QHBoxLayout, QPushButton,  QFileDialog
 from PyQt5.QtGui import QPixmap, QPainter, QPen
 from dual_image import DualImageViewer
@@ -50,7 +51,7 @@ class MainImageViewer(QWidget):
         #Content layout
         v_layout = QVBoxLayout(content)
         self.image_label = ImageSelectable("")
-        v_layout.addWidget(self.image_label)
+        v_layout.addWidget(self.image_label,alignment=Qt.AlignCenter)
 
 
     def zoom_in(self):
