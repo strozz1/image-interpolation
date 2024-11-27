@@ -8,6 +8,10 @@ This project demonstrates the use of interpolation techniques for scaling images
 ## Demo preview
 
 
+https://github.com/user-attachments/assets/0b529dfe-e878-433c-a7aa-1163ad7379e0
+
+
+
 
 ## Interpolation Methods
 
