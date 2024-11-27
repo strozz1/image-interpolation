@@ -1,8 +1,6 @@
-import sys
 from PyQt5.QtWidgets import  QMainWindow, QWidget, QHBoxLayout, QVBoxLayout,  QLabel, QScrollArea
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtCore import QSize, Qt
-from PIL import Image
 
 from image_widget import Numpy_to_qpixmap, scale_pixmap
 
@@ -11,8 +9,7 @@ __all__=['DualImageViewer']
 class ImageViewer(QScrollArea):
     def __init__(self,img):
         super().__init__()
-            
-
+        self.setGeometry(100, 100, 800, 600)
         self.setWidgetResizable(True)
         self.content = QWidget()
         self.setWidget(self.content)
@@ -43,11 +40,11 @@ class DualImageViewer(QMainWindow):
         # Create image layout
         image_layout = QHBoxLayout()
 
-        self.left_viewer = ImageViewer(new)
+        self.left_viewer = ImageViewer(old)
         image_layout.addWidget(self.left_viewer)
       
         
-        self.right_viewer = ImageViewer(old)
+        self.right_viewer = ImageViewer(new)
         image_layout.addWidget(self.right_viewer)
 
         main_layout.addLayout(image_layout)

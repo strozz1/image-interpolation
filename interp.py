@@ -20,17 +20,15 @@ def interp_bilineal_square(row0,row1,col0,col1,old,new):
     y2=old[row0,col1]
     y3=old[row1,col0]
     y4=old[row1,col1]
-    new[pos(new_rows,old_rows,row0),pos(new_cols,old_cols,col0)]=y1
-    new[pos(new_rows,old_rows,row1),pos(new_cols,old_cols,col0)]=y2
-    new[pos(new_rows,old_rows,row0),pos(new_cols,old_cols,col1)]=y3
-    new[pos(new_rows,old_rows,row1),pos(new_cols,old_cols,col1)]=y4
+
+    #Define the range of rows and cols
     row_s=pos(new_rows,old_rows,row0)
     row_e=pos(new_rows,old_rows,row1)
-
     col_s=pos(new_cols,old_cols,col0) 
     col_e=pos(new_cols,old_cols,col1) 
+
     for row in range(row_s,row_e+1):
-        for col in range(pos(new_cols,old_cols,col0),pos(new_cols,old_cols,col1)+1):
+        for col in range(col_s,col_e+1):
             l1=lerp(col_s,col_e,y1,y2,col)
             l2=lerp(col_s,col_e,y3,y4,col)
             l3=lerp(row_s,row_e,l1,l2,row)
@@ -39,33 +37,34 @@ def interp_bilineal_square(row0,row1,col0,col1,old,new):
     return new
 
 
-def pos(new, old, point):
-    scale = new / old
+def pos(new_s, old_s, point):
+    #because indecies starts with 0, we have to sub 1 to sizes
+    scale=(new_s-1)/(old_s-1)
     new_position = int(point * scale)
     return new_position
 
 def bilineal(image,factor):
-    original_rows, original_cols = image.shape
+    original_height, original_width = image.shape
     
-    new_cols = int(original_cols * factor)
-    new_rows = int(original_rows * factor)
-    new_img = np.zeros((new_rows, new_cols, 3), dtype=np.uint8)
-    for row in range(original_rows-1):
-        for col in range(original_cols-1):
+    new_width = int(original_width * factor)
+    new_height = int(original_height * factor)
+    new_img = np.zeros((new_height, new_width, 3), dtype=np.uint8)
+    for row in range(original_height-1):
+        for col in range(original_width-1):
             new_img=interp_bilineal_square(row,row+1,col,col+1,image,new_img)
     return new_img
 
 def nearest(image,factor):
-    original_rows, original_cols = image.shape
+    original_height, original_width = image.shape
     
-    new_rows = int(original_rows * factor)
-    new_cols = int(original_cols * factor)
-    new_img = np.zeros((new_rows, new_cols, 3), dtype=np.uint8)
-    for row in range(new_rows):
-        for col in range(new_rows):
-            orig_x = min(int(row / factor), original_rows - 1)
-            orig_y = min(int(col / factor), original_cols - 1)
-            new_img[row, col]=image[orig_x, orig_y]
+    new_height = int(original_height * factor)
+    new_width = int(original_width* factor)
+    new_img = np.zeros((new_height, new_width, 3), dtype=np.uint8)
+    for row in range(new_height):
+        for col in range(new_width):
+            orig_row = min(int(row / factor), original_height - 1)
+            orig_col = min(int(col / factor), original_height - 1)
+            new_img[row, col]=image[orig_row, orig_col]
     return new_img
 
 def none_interp(image,factor):

@@ -1,4 +1,3 @@
-import sys
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QComboBox, QLabel, QSizePolicy, QSpacerItem, QWidget, QScrollArea, QVBoxLayout, QHBoxLayout, QPushButton,  QFileDialog
 from PyQt5.QtGui import QPixmap, QPainter, QPen
