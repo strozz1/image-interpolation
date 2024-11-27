@@ -6,7 +6,7 @@ This project demonstrates the use of interpolation techniques for scaling images
 
 **Disclaimer**: For the moment, the project only supports images in grayscale. 
 ## Demo preview
-https://github.com/user-attachments/assets/2478b729-3931-44bb-b35f-12f87bdb86bf
+
 
 
 ## Interpolation Methods
@@ -29,7 +29,7 @@ When scaling an image, the lack of detail becomes evident due to limited resolut
 
 Zooming into a specific area, such as the eye, reveals pixelation. This is expected, as the resolution of the image does not contain enough detail to support higher zoom levels:
 
-![Zoomed Image Without Interpolation](images/asd.png)
+![Zoomed Image Without Interpolation](images/original.png)
 
 By applying interpolation to the zoomed section, the resolution is effectively upscaled, generating new pixels to fill in the gaps. Below is the result of using **bilinear interpolation**, which computes intermediate values by linearly interpolating along both dimensions:
 
@@ -45,19 +45,16 @@ In this case, interpolation improves the visual quality of the zoomed section by
 ### Steps:
 
 1. Once the application is open, select an image from your local storage.
-2. After the image is loaded, press the "Select" button to define an area of interest.
-3. Click and drag the mouse over the desired portion of the image. Releasing the mouse button will confirm the selection.
-4. The selected area will then be scaled using the default interpolation method (**bilinear interpolation** by default).
+2. Click and drag the mouse over the desired portion of the image. Releasing the mouse button will confirm the selection.
+3. After selecting the area, press the "Select" button to start the interpolation process.
+4. The selected area will then be scaled using the chosen method.
 
 A new window will display the upscaled result of the selected portion.
 
-### Note:
-
-To change the interpolation method, modify the `interpolate` function in `main.py`. Future updates may include a graphical interface to allow method selection.
 
 ## Future Improvements
 - Use GPU for better time on matrix operations 
 - Implementing **bicubic** and **spline** interpolation methods.
 - Improving user interface (kinda poor right now, not really into UIs)
-- Adding a user interface option for selecting interpolation methods.
+- ~~Adding a user interface option for selecting interpolation methods.~~
 - Optimizing edge case handling for various image resolutions and types.
