@@ -1,7 +1,18 @@
 import math
 import numpy as np
+from ctypes import CDLL
+import ctypes
+lib = CDLL('./libmylib.so') 
+lib.inter_bilineal_square.argtypes = [
+    ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int,
+    ctypes.POINTER(ctypes.c_uint8), ctypes.c_int, ctypes.c_int,
+    ctypes.POINTER(ctypes.c_uint8), ctypes.c_int, ctypes.c_int
+]
+lib.inter_bilineal_square.restype = None  # función void
+
 
 __all__=['interpolate','bilineal','nearest','none_interp']
+
 
 
 def lerp(x0,x1,y0,y1,p):
@@ -14,7 +25,7 @@ def lerp(x0,x1,y0,y1,p):
 
 def interp_bilineal_square(row0,row1,col0,col1,old,new):
     old_rows,old_cols=old.shape
-    new_rows,new_cols,z=new.shape
+    new_rows,new_cols=new.shape
 
     y1=old[row0,col0]
     y2=old[row0,col1]
@@ -43,23 +54,35 @@ def pos(new_s, old_s, point):
     new_position = int(point * scale)
     return new_position
 
-def bilineal(image,factor):
+def bilineal(images,factor):
+    image=images
     original_height, original_width = image.shape
     
     new_width = int(original_width * factor)
     new_height = int(original_height * factor)
-    new_img = np.zeros((new_height, new_width, 3), dtype=np.uint8)
+    result =np.zeros((new_height, new_width), dtype=np.uint8)
+    print(result.shape)
+    image=image.flatten()
+    result=result.flatten()
+
+    print(result.shape)
     for row in range(original_height-1):
         for col in range(original_width-1):
-            new_img=interp_bilineal_square(row,row+1,col,col+1,image,new_img)
-    return new_img
+            old_ptr = image.ctypes.data_as(ctypes.POINTER(ctypes.c_uint8))
+            result_ptr = result.ctypes.data_as(ctypes.POINTER(ctypes.c_uint8))
+            lib.inter_bilineal_square(row,row+1,col,col+1,old_ptr,original_height,original_width,result_ptr,new_height,new_width)
+     #       result= interp_bilineal_square(row,row+1,col,col+1,image,result)
+
+    result=result.reshape((new_height , new_width))
+    print(result.shape)
+    return result
 
 def nearest(image,factor):
     original_height, original_width = image.shape
     
     new_height = int(original_height * factor)
     new_width = int(original_width* factor)
-    new_img = np.zeros((new_height, new_width, 3), dtype=np.uint8)
+    new_img = np.zeros((new_height, new_width), dtype=np.uint8)
     for row in range(new_height):
         for col in range(new_width):
             orig_row = min(int(row / factor), original_height - 1)
@@ -75,10 +98,10 @@ def none_interp(image,factor):
 
     y_scale = new_cols / original_cols
     x_scale = new_rows / original_rows
-    new_img = np.zeros((new_rows, new_cols, 3), dtype=np.uint8)
+    new_img = np.zeros((new_rows, new_cols), dtype=np.uint8)
 
-    for i in range(new_rows):
-        for j in range(new_cols):
+    for i in range(new_rows-1):
+        for j in range(new_cols-1):
             orig_x = int(j // x_scale)
             orig_y = int(i // y_scale)
             

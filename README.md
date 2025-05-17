@@ -43,7 +43,11 @@ In this case, interpolation improves the visual quality of the zoomed section by
 
 ## How to Use the Application
 
-1. **Prerequisite**: Ensure Python is installed on your system.
+1. **Prerequisite**: Ensure Python is installed on your system and gcc or similar.
+2. **Build C library**: Build C lib for interpolating using gcc or similar
+```bash
+gcc -shared -o libmylib.so -fPIC image.c
+```
 2. **Run the script**: Launch the application by executing the script in a Python environment.
 
 ### Steps:

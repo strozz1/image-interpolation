@@ -33,7 +33,7 @@ class MainImageViewer(QWidget):
         zoom_in_button.clicked.connect(self.zoom_in)
         #button_layout.addWidget(zoom_in_button)
 
-        select_in_button = QPushButton('Select')
+        select_in_button = QPushButton('Interpolate')
         select_in_button.clicked.connect(self.interp_window)
         button_layout.addWidget(select_in_button)
         type_layout = QHBoxLayout()
@@ -92,6 +92,8 @@ class MainImageViewer(QWidget):
         self.image_label.setImage(self.image_path)
     
     def interp_window(self):
+        if self.image_label.selected==False:
+            return
         method=self.interp_method
         old=self.image_label.data
 
@@ -119,6 +121,7 @@ class MainImageViewer(QWidget):
         self.image_window = DualImageViewer(new,old)
         self.image_window.show()
         self.image_label.reset_rect()
+        self.selected=False
         
 
 

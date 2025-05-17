@@ -68,6 +68,7 @@ class ImageSelectable(QWidget):
     def setImage(self,path):
         pixmap=QPixmap(path)
         self.image=pixmap
+        self.selected=False
         #make grayscale
         if not pixmap.isNull():
             # Convert to gray scale
@@ -100,6 +101,7 @@ class ImageSelectable(QWidget):
             x = min(event.pos().x(), self.image.width() - 1)
             y = min(event.pos().y(), self.image.height() - 1)
             self.end_point = QPoint(x, y)
+            self.selected=True
             #self.rect = QRect(self.start_point, self.end_point)
             self.update()
     def reset_rect(self):
